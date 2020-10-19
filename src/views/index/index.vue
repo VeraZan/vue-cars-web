@@ -1,15 +1,61 @@
 <template>
   <div>
-    123
+    <!-- 汽车数据 -->
+    <Cars />
+    <!-- 地图 -->
+    <Map />
+    <!-- 导航 -->
+    <Navbar />
+    <!-- 会员管理 -->
+    <div class="children-view" :class="{open:show}">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
 <script>
+import Map from "../amap";
+import Cars from "../cars";
+import Navbar from "@c/navbar";
 export default {
-  name:"Index"
+  name:"Index",
+  components:{ Map,Cars,Navbar },
+  data(){
+    return{
+     
+    }
+  },
+  computed:{
+    show(){
+      const activeRouter = this.$route;
+      return activeRouter.name === "Index" ? false : true;
+    }
+  },
+  mounted(){
+    document.addEventListener('mouseup', (e) => {
+      const userCon = document.getElementById("children-view");
+      if(userCon && !userCon.contains(e.target)) {
+        this.$router.push({
+          name: "Index"
+        })
+      }
+    })
+  }
 }
 </script>
 
 <style lang="scss">
-
+.children-view{
+  position: fixed;
+  top:0;
+  bottom:0;
+  right:-410px;
+  width:410px;
+  transform: all .3s ease 0s;
+  background-color: #34393f;
+  z-index:101;
+  &.open{
+    right:0;
+  }
+}
 </style>

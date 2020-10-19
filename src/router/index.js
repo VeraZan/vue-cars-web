@@ -1,14 +1,27 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Index from "../views/index/index";
+import Index from "../views/index";
 
 Vue.use(VueRouter);
+
+//以下代码解决路由地址重复的报错 Avoided redundant navigation to current location: "/xxx" 问题
+const originalPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 
 const routes = [
   {
     path: "/",
     name: "Index",
-    component: Index
+    component: Index,
+    children:[
+      {
+        path: "/user",
+        name: "User",
+        component: ()=>import("../views/user")
+      }
+    ]
   }
 ];
 
