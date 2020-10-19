@@ -9,19 +9,17 @@
   width: 505px;
   height:257px;
   margin: auto;
-  padding: 30px;
+  padding: 30px 30px 0;
   background-color: #fff;
   border-radius: 24px;
   @include webkit(box-shadow,0 0 18px 0 rgba(0,0,0,.2));
   @include webkit(box-sizing,border-box);
   header{
-    display:flex;
-    h4,p{
-      flex: 1;
-    }
+    @extend %clearfix;
   }
 }
 .cars-logo{
+  float: left;
   img{
     display: inline-block;
     height: 34px;
@@ -31,7 +29,87 @@
   .name{ font-size: 16px; }
 }
 .cars-attr{
+  float: right;
   text-align:right;
   opacity: 0.5;
   line-height:34px;
+}
+.cars-content{
+  position: relative;
+  margin:11px 0 7px;
+  @extend %clearfix;
+  img{
+    float: right;
+    height:120px;
+  }
+}
+.info{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  top:0;
+  left:0;
+  width: 100%;
+  height:100%;
+  .cars-number{
+    font-size: 18px;
+  }
+  .cars-electric{
+    padding-top: 10px;
+    display: inline-block;
+    ul{
+      display: inline-block;
+      li{
+        display: inline-block;
+        width: 7px;
+        height:24px;
+        margin-right: 2px;
+        background-color: #e1e1e1;
+        border-radius: 3.5px;
+      }
+      @for $i from 1 through 10 {
+        &.active-li-#{$i}{
+          li:nth-child(-n+#{$i}){
+            @include webkitA(background, linear-gradient(to bottom,#17a8fa,#108dd9));
+          }
+        }
+      }
+    }    
+    .distance{
+      margin-left: 5px;
+      display: inline-block;
+      strong{
+        margin: 0 3px;
+        font-size: 22px;
+      }
+      sub{
+        position: relative;
+        top:-2px;
+      }
+      sub:first-of-type{
+        opacity: 0.8;
+      }
+    }
+  }
+}
+.parking-link{
+  position: relative;
+  display: block;
+  border-top:1px solid #e1e1e1;
+  color: $color-main;
+  opacity: 0.8;
+  line-height: 53px;
+  &:after{
+    content: "";
+    position: absolute;
+    top:50%;
+    right: 0;
+    width: 8px;
+    height: 8px;
+    margin-top: -6px;
+    border-top:1px solid #d6d7d9;
+    border-right:1px solid #d6d7d9;
+    @include webkit(transform,rotate(45deg));
+  }
 }
