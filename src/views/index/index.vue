@@ -1,13 +1,13 @@
 <template>
   <div>
     <!-- 汽车数据 -->
-    <Cars />
+    <!-- <Cars /> -->
     <!-- 地图 -->
     <Map />
     <!-- 导航 -->
     <Navbar />
     <!-- 会员管理 -->
-    <div class="children-view" :class="{open:show}">
+    <div id="children-view" :class="{open:show}">
       <router-view></router-view>
     </div>
   </div>
@@ -45,13 +45,14 @@ export default {
 </script>
 
 <style lang="scss">
-.children-view{
+#children-view{
   position: fixed;
   top:0;
   bottom:0;
   right:-410px;
   width:410px;
-  transform: all .3s ease 0s;
+  @include webkit(transform,all .3s ease 0s);
+  @include webkit(box-shadow,-5px 0 38px rgba(0,0,0,.4));
   background-color: #34393f;
   z-index:101;
   &.open{
