@@ -59,17 +59,25 @@ module.exports = {
     https: false, // 编译失败时刷新页面
     hot: true, // 开启热加载
     hotOnly: false,
-    // proxy: {
-    //   [process.env.VUE_APP_API]: {
-    //       target: process.env.VUE_API_DEV_TARGET, //API服务器的地址
-    //       changeOrigin: true,
-    //       pathRewrite: {
-    //           [`^${process.env.VUE_APP_API}`]: ''
-    //       }
-    //   }
-    //   // http://www.web-jshtml.cn/api/vue3  /api/getCode
-    // }
-  },
+    proxy: {
+      // 后端的接口：http://www.web-jshtml/api/cars  
+      [process.env.VUE_APP_API_LOGIN]: {
+        target: process.env.VUE_API_DEV_LOGIN_TARGET, //API服务器的地址
+        changeOrigin: true,
+        pathRewrite: {
+          [`^${process.env.VUE_APP_API_LOGIN}`]: ''
+        }
+      },
+      // 前端的接口：http://www.web-jshtml/api/cars/web
+      [process.env.VUE_APP_API_WEB]: {
+        target: process.env.VUE_API_DEV_WEB_TARGET, //API服务器的地址
+        changeOrigin: true,
+        pathRewrite: {
+            [`^${process.env.VUE_APP_API_WEB}`]: ''
+        }
+      }
+    }
+  },  
   /**
    * 第三方插件配置
    */
