@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 汽车数据 -->
-    <!-- <Cars /> -->
+    <Cars ref="cars" />
     <!-- 地图 -->
     <Map ref="map" :parking="parking" @callback="callbackComponent" />
     <!-- 导航 -->
@@ -56,6 +56,7 @@ export default {
           item.events = {
             click: (e) => {
               this.walking(e);  // 路线规划
+              this.getCarsList(e);  // 车辆列表
             }
           }
         });
@@ -69,6 +70,11 @@ export default {
         value: data
       });
       this.$refs.map.handlerWalking(data.lnglat.split(","));
+    },
+    getCarsList(e){
+      const data = e.target.getExtData();
+      // 父组件调子组件的方法
+      this.$refs.cars && this.$refs.cars.getCarsList(data.id);
     }
   },
   mounted(){

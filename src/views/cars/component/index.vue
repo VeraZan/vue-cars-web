@@ -2,17 +2,17 @@
   <div>
     <section class="cars-item">
       <header> 
-        <h4 class="cars-logo" title="Mustang 2019款">
-          <img src="@/assets/images/cars-logo.png" alt="Mustang 2019款">
-          <span class="name">Mustang 2019款</span>
+        <h4 class="cars-logo" :title="data.carsMode">
+          <img :src="data.imgUrl" :alt="data.carsMode">
+          <span class="name">{{ data.carsMode }}</span>
         </h4>
         <p class="cars-attr" title="新能源汽车 5座">新能源汽车 5座</p>
       </header>
       <div class="cars-content">
         <div class="info">
-          <h4 class="cars-number">粤 B745N8</h4>
+          <h4 class="cars-number">{{ data.carsNumber }}</h4>
           <div class="cars-electric">
-            <ul class="active-li-6">
+            <ul :class="data.oil | electricNumber">
               <li></li>
               <li></li>
               <li></li>
@@ -31,13 +31,13 @@
             </p>
           </div>
         </div>
-        <img src="@/assets/images/pic001.jpg" alt="">
+        <img :src="data.carsImg" alt="">
       </div>
       <footer>
-        <a href="javascript:void(0);" class="parking-link">某某停车场</a>
+        <a href="javascript:void(0);" class="parking-link">{{ data.parkingName }}</a>
       </footer>
     </section>
-    <section class="cars-item cars-detailed" :style="'height:' + height">
+    <!-- <section class="cars-item cars-detailed" :style="'height:' + height">
       <div class="scroll">
         <div class="column">
           某某停车场
@@ -90,14 +90,24 @@
         </div>
       </div>
       <a href="javascript: void(0);" class="select-car-btn">预约用车</a>
-    </section>
+    </section> -->
   </div>
 </template>
 
 <script>
 export default {
   name:"CarsItem",
+  filters: {
+    electricNumber(val){
+      const number = Math.round(val / 10);
+      return `active-li-${number}`;  // 四舍五入，向上取整
+    }
+  },
   props:{
+    data: {
+      type: Object,
+      default: () => {}
+    },
     height:{
       type:String,
       default:"257px"
