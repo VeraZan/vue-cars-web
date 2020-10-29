@@ -51,16 +51,24 @@ export default {
           item.content = "<img src='"+ require('@/assets/images/parking_location_img.png') +"' />";
           item.offset = [-35, -60];
           item.offsetText = [-30, -55];
-          item.label = {content: "11", offset: [10, 10]};
+          // item.label = {content: "11", offset: [10, 10]};
           item.text = `<div style="width: 60px; font-size: 20px; color: #fff; text-align: center;line-height: 50px; height: 60px;">${item.carsNumber}</div>`;
           item.events = {
             click: (e) => {
-               
+              this.walking(e);  // 路线规划
             }
           }
         });
         this.parking = data;
       })
+    },
+    walking(e){
+      const data = e.target.getExtData();
+      this.$refs.map.saveData({
+        key: "parkingData",
+        value: data
+      });
+      this.$refs.map.handlerWalking(data.lnglat.split(","));
     }
   },
   mounted(){
