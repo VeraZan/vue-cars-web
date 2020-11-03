@@ -55,6 +55,7 @@ export default {
           item.text = `<div style="width: 60px; font-size: 20px; color: #fff; text-align: center;line-height: 50px; height: 60px;">${item.carsNumber}</div>`;
           item.events = {
             click: (e) => {
+              this.$store.commit("app/SET_CARS_LIST_REQUEST",true);
               this.walking(e);  // 路线规划
               this.getCarsList(e);  // 车辆列表
             }
@@ -77,15 +78,19 @@ export default {
       this.$refs.cars && this.$refs.cars.getCarsList(data.id);
     }
   },
-  mounted(){
-    document.addEventListener('mouseup', (e) => {
-      const userCon = document.getElementById("children-view");
-      if(userCon && !userCon.contains(e.target)) {
-        this.$router.push({
-          name: "Index"
-        })
+  watch:{
+    "$store.state.app.isClickCarsList":{
+      handler(newValue,oldValue){
+        if(!newValue){
+          this.$refs.cars.clearCarsList();
+          this.$refs.map.saveData({
+            key: "parkingInfo",
+            value: {}
+          });
+          this.$store.commit("app/SET_CARS_LIST_STATUS",true);
+        }
       }
-    })
+    }
   }
 }
 </script>

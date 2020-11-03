@@ -1,20 +1,10 @@
 <template>
-  <div class="cars-wrap">
+  <div class="cars-wrap" v-if="carsList && carsList.length > 0">
     <div class="cars-swiper-wrap">
       <swiper class="swiper" :options="swiperOption">
-        <swiper-slide v-for="item in carsList" :key="item.id"><CarsItem :data="item" /></swiper-slide>
-        <!-- <swiper-slide>
-          <CarsItem height="820px"/>
+        <swiper-slide v-for="item in carsList" :key="item.id">
+          <CarsItem :data="item" />
         </swiper-slide>
-        <swiper-slide>
-          <CarsItem />
-        </swiper-slide>
-        <swiper-slide>
-          <CarsItem />
-        </swiper-slide>
-        <swiper-slide>
-          <CarsItem />
-        </swiper-slide> -->
       </swiper>
       <div class="swiper-button-prev" slot="button-prev"></div>
       <div class="swiper-button-next" slot="button-next"></div>
@@ -49,9 +39,21 @@ export default {
       GetCarsList({ parkingId }).then(response => {  
         const data = response.data.data;
         data && (this.carsList = data);
+        this.$store.commit("app/SET_CARS_LIST_REQUEST",false);
       })
+    },
+    clearCarsList(){
+      this.carsList = []
     }
-  }
+  },
+  // watch:{
+  //   "$store.state.app.isClickCarsList":{
+  //     handler(newValue,oldValue){
+  //       if(!newValue) this.carsList = [];
+  //       this.$store.commit("app/SET_CARS_LIST_STATUS",true);
+  //     }
+  //   }
+  // }
 }
 </script>
 

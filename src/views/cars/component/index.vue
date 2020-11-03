@@ -1,15 +1,18 @@
 <template>
   <div>
-    <section class="cars-item">
+    <section class="cars-item" @click="getCarsInfo">
       <header> 
         <h4 class="cars-logo" :title="data.carsMode">
           <img :src="data.imgUrl" :alt="data.carsMode">
           <span class="name">{{ data.carsMode }}</span>
         </h4>
-        <p class="cars-attr" title="新能源汽车 5座">新能源汽车 5座</p>
+        <p class="cars-attr">
+          <span>{{ data.carsAttr | energyType }}</span> 
+          <span>{{ data.carsAttr | seatNumber }}座</span>
+        </p>
       </header>
       <div class="cars-content">
-        <div class="info">
+        <div class="info">         
           <h4 class="cars-number">{{ data.carsNumber }}</h4>
           <div class="cars-electric">
             <ul :class="data.oil | electricNumber">
@@ -26,7 +29,7 @@
             </ul>
             <p class="distance">
               <sub>约</sub>
-              <strong>600</strong>
+              <strong>{{ data.countKm }}</strong>
               <sub>KM</sub>
             </p>
           </div>
@@ -37,31 +40,34 @@
         <a href="javascript:void(0);" class="parking-link">{{ data.parkingName }}</a>
       </footer>
     </section>
-    <!-- <section class="cars-item cars-detailed" :style="'height:' + height">
+    <section class="cars-item cars-detailed" :style="'height:' + cars_info_height" v-if="car_info_show">     
+      <div class="column">
+        {{ data.parkingName }}
+        <i class="close" @click="closeCarsInfo"></i>
+      </div>
       <div class="scroll">
-        <div class="column">
-          某某停车场
-          <i class="close"></i>
-        </div>
         <header> 
-          <h4 class="cars-logo" title="Mustang 2019款">
-            <img src="@/assets/images/cars-logo.png" alt="Mustang 2019款">
-            <span class="name">Mustang 2019款</span>
+          <h4 class="cars-logo" :title="data.carsMode">
+            <img :src="data.imgUrl" :alt="data.carsMode">
+            <span class="name">{{ data.carsMode }}</span>
           </h4>
-          <p class="cars-attr" title="新能源汽车 5座">新能源汽车 5座</p>
+          <p class="cars-attr">
+            <span>{{ data.carsAttr | energyType }}</span> 
+            <span>{{ data.carsAttr | seatNumber }}座</span>
+          </p>
         </header>
-        <img src="@/assets/images/pic001.jpg" alt="" width="100%">
+        <img :src="data.carsImg" alt="" width="100%">
         <div class="clearfix">
-          <div class="pull-left fs-24">粤 B745N8</div>
+          <div class="pull-left fs-24">{{ data.carsNumber }}</div>
           <p class="distance pull-right">
             <sub>约</sub>
-            <strong>600</strong>
+            <strong>{{ data.countKm }}</strong>
             <sub>KM</sub>
           </p>
         </div>
         <div class="cars-electric-box">
           <div class="p-r">
-            <span class="e-high" style="width: 80%;"></span>
+            <span class="e-high" :style="'width: '+ data.oil +'%;'"></span>
             <span class="e-bg"></span>
           </div>
         </div>
@@ -90,27 +96,64 @@
         </div>
       </div>
       <a href="javascript: void(0);" class="select-car-btn">预约用车</a>
-    </section> -->
+    </section>
   </div>
 </template>
 
 <script>
+import { getCarsAttrKey } from "@/utils/format";
 export default {
   name:"CarsItem",
+  data(){
+    return{
+      car_info_show:false,
+      cars_info_height:"0",
+      timer:null
+    }
+  },
   filters: {
     electricNumber(val){
-      const number = Math.round(val / 10);
-      return `active-li-${number}`;  // 四舍五入，向上取整
+      const number = Math.round(val / 10);//Math.round 四舍五入为最接近的整数
+      return `active-li-${number}`;  
+    },
+    energyType(val){
+      return getCarsAttrKey({
+        data: val,
+        parentKey: "basics",
+        childKey: "energyType"
+      });
+    },
+    seatNumber(val){
+      return getCarsAttrKey({
+        data: val,
+        parentKey: "carsBody",
+        childKey: "seatNum"
+      });
     }
   },
   props:{
     data: {
       type: Object,
       default: () => {}
+    }
+  },
+  methods:{
+    getCarsInfo(){
+      this.openCarsInfo();
     },
-    height:{
-      type:String,
-      default:"257px"
+    openCarsInfo(){
+      const viewHeight = document.documentElement.clientHeight || document.body.clientHeight;
+      const height = viewHeight - 145;
+      this.car_info_show = true;
+      if(this.timer) clearTimeout(this.timer);
+      this.timer = setTimeout(() => {
+        this.cars_info_height = `${height}px`;
+        clearTimeout(this.timer);
+      },10)
+    },
+    closeCarsInfo(){
+      this.car_info_show = false;
+      this.cars_info_height = "0";
     }
   }
 }
