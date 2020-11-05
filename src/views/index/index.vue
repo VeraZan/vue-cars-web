@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 汽车数据 -->
-    <!-- <Cars /> -->
+    <Cars ref="cars" />
     <!-- 地图 -->
     <Map ref="map" :parking="parking" @callback="callbackComponent" />
     <!-- 导航 -->
@@ -55,7 +55,9 @@ export default {
           item.text = `<div style="width: 60px; font-size: 20px; color: #fff; text-align: center;line-height: 50px; height: 60px;">${item.carsNumber}</div>`;
           item.events = {
             click: (e) => {
+              this.$store.commit("app/SET_CARS_LIST_REQUEST",true);
               this.walking(e);  // 路线规划
+              this.getCarsList(e);  // 车辆列表
             }
           }
         });
@@ -69,17 +71,26 @@ export default {
         value: data
       });
       this.$refs.map.handlerWalking(data.lnglat.split(","));
+    },
+    getCarsList(e){
+      const data = e.target.getExtData();
+      // 父组件调子组件的方法
+      this.$refs.cars && this.$refs.cars.getCarsList(data.id);
     }
   },
-  mounted(){
-    document.addEventListener('mouseup', (e) => {
-      const userCon = document.getElementById("children-view");
-      if(userCon && !userCon.contains(e.target)) {
-        this.$router.push({
-          name: "Index"
-        })
+  watch:{
+    "$store.state.app.isClickCarsList":{
+      handler(newValue,oldValue){
+        if(!newValue){
+          this.$refs.cars.clearCarsList();
+          this.$refs.map.saveData({
+            key: "parkingInfo",
+            value: {}
+          });
+          this.$store.commit("app/SET_CARS_LIST_STATUS",true);
+        }
       }
-    })
+    }
   }
 }
 </script>
