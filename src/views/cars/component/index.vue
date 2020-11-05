@@ -73,21 +73,14 @@
         </div>
         <p class="info color-main text-center">取车约支付12.0元停车费，实际补贴12.0元</p>
         <ul class="cars-type-list">
-          <li class="current">
-            <h4 class="name">日租车</h4>
-            <span class="price">￥300/1天</span>
-          </li>
-          <li>
-            <h4 class="name">日租车</h4>
-            <span class="price">￥300/1天</span>
-          </li>
-          <li>
-            <h4 class="name">日租车</h4>
-            <span class="price">￥300/1天</span>
-          </li>
-          <li>
-            <h4 class="name">日租车</h4>
-            <span class="price">￥300/1天</span>
+          <li 
+            v-for="item in lease_list_data" 
+            :class="{'current':selectLeaseTypeId == item.carsLeaseTypeId}" 
+            :key="item.carsLeaseTypeId" 
+            @click="selectLeaseType(item)"
+          >
+            <h4 class="name">{{ item.carsLeaseTypeName }}</h4>
+            <span class="price">￥{{ item.price }}</span>
           </li>
         </ul>
         <div class="clause-dec">
@@ -102,13 +95,16 @@
 
 <script>
 import { getCarsAttrKey } from "@/utils/format";
+import { GetLeaseList } from "@/api/cars";
 export default {
   name:"CarsItem",
   data(){
     return{
       car_info_show:false,
       cars_info_height:"0",
-      timer:null
+      timer:null,
+      lease_list_data:[],
+      selectLeaseTypeId:""
     }
   },
   filters: {
@@ -149,7 +145,19 @@ export default {
       this.timer = setTimeout(() => {
         this.cars_info_height = `${height}px`;
         clearTimeout(this.timer);
-      },10)
+      },10);
+      //获取租赁类型
+      this.getLeaseList();
+    },
+    getLeaseList(){
+      if(this.lease_list_data && this.lease_list_data.length !== 0) return;
+      GetLeaseList({carsId:this.data.id}).then(response => {
+        const dataItem = response.data;
+        if(dataItem) this.lease_list_data = dataItem.data; 
+      })
+    },
+    selectLeaseType(data){
+      this.selectLeaseTypeId = data.carsLeaseTypeId;
     },
     closeCarsInfo(){
       this.car_info_show = false;
