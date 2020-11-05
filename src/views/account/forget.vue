@@ -1,11 +1,12 @@
 <template>
   <div class="user-container">
-    <Back />
+    <Back>
+      <template v-slot:navHeaderRight>
+        <router-link class="color-white opacity-4" to="/login">登录</router-link>
+      </template>
+    </Back>
     <div class="cars-form-ui">
-      <el-form ref="form" :model="form">
-        <el-form-item>
-          <el-input v-model="form.password" type="password" placeholder="原始密码"></el-input>
-        </el-form-item>
+      <el-form ref="form" :model="form">      
         <el-form-item>
           <el-input v-model="form.newPassword" type="password" placeholder="新密码"></el-input>
         </el-form-item>
@@ -25,12 +26,11 @@
 </template>
 <script>
 export default {
-  name: "Password",
+  name: "Forget",
   //components: {},
   data(){
     return {
       form: {
-        password: '',
         newPassword: '',
         confirmPassword: '',
         code: ''

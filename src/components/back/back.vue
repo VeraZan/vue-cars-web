@@ -1,22 +1,31 @@
 <template>
   <div class="header-back">
-    <div class="back">
-      <i class="icon"></i>
-      <h4 class="title">{{ column }}</h4>
-    </div>
+    <header class="nav-header">
+      <div class="back" @click="goBack">
+        <i class="icon"></i>
+        <h4 class="title">{{ title }}</h4>
+      </div>
+      <div class="right-wrap">
+        <slot name="navHeaderRight"></slot>
+      </div>
+    </header>
   </div>
 </template>
 <script>
 export default {
-  name: "Back",
-  props: {
-    column: {
-      type: String,
-      default: ""
-    }
-  },
+  name: "Back", 
   data() {
     return {};
+  },
+  computed:{
+    title(){
+      return this.$store.state.router.routerName;
+    }
+  },
+  methods:{
+    goBack(){
+      this.$router.go(-1);
+    }
   }
 };
 </script>
@@ -25,13 +34,19 @@ export default {
   position: relative;
   padding-bottom: 147px;
 }
-.back {
+.nav-header {
   position: absolute;
   top: 21px;
   left: 0;
   right: 0;
   height: 40px;
   line-height: 40px;
+}
+.back {
+  float: left;
+}
+.right-wrap { 
+  float: right; 
 }
 .title {
   font-size: 16px;

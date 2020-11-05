@@ -14,3 +14,9 @@ export function setUsername(value){ return Cookies.set(userNameKey, value); }
 export function getUsername(){ return Cookies.get(userNameKey); }
 // 删除userName
 export function removeUsername(){ return Cookies.remove(userNameKey); }
+
+//账户
+const accountToken = "accountToken";
+const accountUser = "accountUser";
+// 获取token
+export function getAccountToken(){ return Cookies.get(accountToken); }
