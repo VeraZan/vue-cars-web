@@ -15,6 +15,9 @@ const routes = [
     path: "/",
     name: "Index",
     component: Index,
+    meta:{
+      title:"在线租车"
+    },
     children:[
       {
         path: "/user",
