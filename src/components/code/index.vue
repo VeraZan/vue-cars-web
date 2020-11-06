@@ -44,7 +44,7 @@ export default {
       })    
     },
     countDown(){
-      let second = 120;
+      let second = 60;
       this.button_text = `倒计时${second}秒`;
       this.disabled = true;
       this.timer = setInterval(() => {
@@ -52,7 +52,7 @@ export default {
         this.button_text = `倒计时${second}秒`;
         if(second === 0){
           clearInterval(this.timer);
-          this.button_text = `重新获取验证码`;
+          this.button_text = `重新获取`;
           this.disabled = false;
         }
       },1000)

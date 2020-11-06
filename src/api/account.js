@@ -19,3 +19,23 @@ export function Register(data) {
     data
   })
 }
+/**
+ * 登录
+ */
+export function Login(data) {
+  return service.request({
+    method: "post",
+    url: `${process.env.VUE_APP_API_WEB}/account/login/`,
+    data
+  })
+}
+/**
+ * 忘记密码
+ */
+export function Forget(data) {
+  return service.request({
+    method: "post",
+    url: `${process.env.VUE_APP_API_WEB}/account/forget/`,
+    data
+  })
+}

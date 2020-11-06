@@ -3,7 +3,7 @@
     <div class="user-info">
       <img src="../../assets/images/face.png" alt="" />
       <div class="meta">
-        <h4 class="name">160045@qq.com</h4>
+        <h4 class="name">{{ username }}</h4>
         <span>
           文明驾驶分
           <strong>0</strong>
@@ -32,7 +32,7 @@
         帮助中心
       </router-link>
     </ul>
-    <button class="logout">登出</button>
+    <button class="logout" @click="logout">登出</button>
   </div>
 </template>
 <script>
@@ -40,7 +40,18 @@ export default {
   name: "User",
   components: {},
   data() {
-    return {};
+    return {
+      username:this.$store.state.account.username
+    };
+  },
+  methods:{
+    logout(){
+      this.$store.dispatch("account/logoutAction").then(() => {
+        this.$router.push({
+          name:"Index"
+        })
+      })
+    }
   }
 };
 </script>
@@ -61,5 +72,6 @@ export default {
   font-size: 18px;
   border: none;
   outline: none;
+  cursor: pointer;
 }
 </style>

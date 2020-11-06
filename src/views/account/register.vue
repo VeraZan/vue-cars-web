@@ -25,8 +25,6 @@ import Username from "@c/account/username";
 import PasswordVue from "@c/account/password";//直接写Password会关键词冲突
 import PasswordConfirm from "@c/account/passwordConfirm";
 import Code from "@c/code";
-//api
-import { Register } from "@/api/account";
 export default {
   name: "Register",
   components: { Username,PasswordVue,PasswordConfirm,Code },
@@ -54,7 +52,12 @@ export default {
         password: sha1(this.form.password),
         code: this.form.code
       }
-      Register(requestData).then(response => {
+      this.$store.dispatch("account/registerAction",requestData).then(response => {
+        this.$message.success(response.message);   
+        this.$router.push({
+          name:"Login"
+        })
+      }).catch(error => {
 
       })
     }

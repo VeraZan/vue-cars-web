@@ -20,6 +20,8 @@
   </div>
 </template>
 <script>
+import sha1 from "js-sha1";
+//组件
 import Username from "@c/account/username";
 import PasswordVue from "@c/account/password";//直接写Password会关键词冲突
 export default {
@@ -37,8 +39,23 @@ export default {
     onSubmit() {
       this.$refs.form.validate((valid) => {
         if (valid) {
-          alert('submit!');
+          this.login();
         }
+      })
+    },
+    login(){
+      const requestData = {
+        username:this.form.username,
+        password:sha1(this.form.password)
+      }
+      this.$store.dispatch("account/loginAction",requestData).then(response => {
+        this.$message.success(response.message); 
+        //需要保存历史记录用push，不需要用replace（替换当前历史记录）  
+        this.$router.push({
+          name:"Index"
+        })
+      }).catch(error => {
+
       })
     }
   }
