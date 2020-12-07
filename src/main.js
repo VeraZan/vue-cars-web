@@ -8,6 +8,8 @@ import "./plugin/aMap";
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
+// 守卫路由
+import "./router/permit";
 //全局组件
 import "@c/back/index";
 

@@ -1,6 +1,6 @@
 <template>
   <div class="user-container">
-    <Back column="修改登录密码" />
+    <Back />
     <div class="cars-form-ui">
       <el-form ref="form" :model="form">
         <el-form-item>

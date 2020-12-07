@@ -1,7 +1,9 @@
 import Cookies from "js-cookie";
+
 // 变量
-const tokenKey = "tokenWeb";
-const userNameKey = "userWeb";
+const tokenKey = "carsAccountToken";
+const userNameKey = "carsAccountUsername";
+
 // 获取token
 export function getToken(){ return Cookies.get(tokenKey); }
 // 写入token

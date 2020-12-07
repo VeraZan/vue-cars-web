@@ -102,7 +102,7 @@ export default {
   bottom:0;
   right:-410px;
   width:410px;
-  @include webkit(transform,all .3s ease 0s);
+  @include webkit(transition,all .3s ease 0s);
   @include webkit(box-shadow,-5px 0 38px rgba(0,0,0,.4));
   background-color: #34393f;
   z-index:101;
